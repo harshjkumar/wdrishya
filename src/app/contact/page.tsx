@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/sections/navbar";
+import BrandSignature from "@/components/sections/brand-signature";
 import FooterCTA from "@/components/sections/footer-cta";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -193,6 +194,7 @@ export default function ContactPage() {
                 </div>
             </section>
 
+            <BrandSignature />
             <FooterCTA />
         </div>
     );

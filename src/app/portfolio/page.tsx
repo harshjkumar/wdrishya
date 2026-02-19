@@ -4,6 +4,7 @@ import Navbar from "@/components/sections/navbar";
 import PortfolioHero from "@/components/portfolio/portfolio-hero";
 import AlbumShowcase from "@/components/portfolio/album-showcase";
 import ProjectsGrid from "@/components/portfolio/projects-grid";
+import BrandSignature from "@/components/sections/brand-signature";
 import PortfolioFooter from "@/components/portfolio/portfolio-footer";
 
 export default function PortfolioPage() {
@@ -27,6 +28,7 @@ export default function PortfolioPage() {
                     <ProjectsGrid />
                 </div>
 
+                <BrandSignature />
                 {/* 3. FOOTER */}
                 <div className="relative z-10 bg-[#0a0a0a]">
                     <PortfolioFooter />

@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Navbar from "@/components/sections/navbar";
+import BrandSignature from "@/components/sections/brand-signature";
 import FooterCTA from "@/components/sections/footer-cta";
 import useIsMobile from "@/hooks/useIsMobile";
 
@@ -347,6 +348,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
+            <BrandSignature />
             <FooterCTA />
         </>
     );

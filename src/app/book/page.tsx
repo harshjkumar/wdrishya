@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/sections/navbar";
+import BrandSignature from "@/components/sections/brand-signature";
 import FooterCTA from "@/components/sections/footer-cta";
 
 export default function BookPage() {
@@ -207,6 +208,7 @@ export default function BookPage() {
 
                 </div>
             </main>
+            <BrandSignature />
             <FooterCTA />
         </>
     );
