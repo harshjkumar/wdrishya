@@ -13,8 +13,8 @@ export default function BrandSignature() {
                 className="w-full max-w-3xl px-6 md:px-12 opacity-80"
             >
                 <img
-                    src="/wd_svg.svg"
-                    alt="Wedding Drishya Signature"
+                    src="/wd2.png"
+                    alt="Wedding Drishya Logo"
                     className="w-full h-auto"
                 />
             </motion.div>
