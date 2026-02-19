@@ -51,6 +51,8 @@ export default function EditorialStatement() {
   const imgRightSrc = SLIDESHOW_IMAGES[(index + 7) % SLIDESHOW_IMAGES.length];
 
   useEffect(() => {
+    const mm = gsap.matchMedia();
+
     const ctx = gsap.context(() => {
       const section = sectionRef.current!;
 
@@ -76,28 +78,32 @@ export default function EditorialStatement() {
         duration: 1.6, ease: "expo.out",
         scrollTrigger: { trigger: ".ed-rule", start: "top 95%", once: true },
       });
+    }, sectionRef);
 
-      /* ── Images Parallax ── */
+    /* ── Images Parallax (DESKTOP ONLY) ── */
+    mm.add("(min-width: 768px)", () => {
       gsap.to(".ed-img-float", {
-        yPercent: 15, // float down slightly
+        yPercent: 15,
         ease: "none",
         scrollTrigger: {
-          trigger: section,
+          trigger: sectionRef.current,
           start: "top bottom",
           end: "bottom top",
           scrub: 1.2,
         },
       });
+    });
 
-    }, sectionRef);
-
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      mm.revert();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#f8f5f0] py-44 md:py-64 overflow-hidden min-h-screen flex items-center justify-center"
+      className="relative bg-[#f8f5f0] py-24 md:py-64 overflow-hidden min-h-[60vh] md:min-h-screen flex items-center justify-center"
     >
       {/* decorative rule top */}
       <div className="ed-rule absolute top-0 left-0 right-0 h-[1px] bg-[#1a1a1a]/10" />
@@ -168,7 +174,7 @@ export default function EditorialStatement() {
             <span className="ed-word font-serif italic text-2xl md:text-3xl text-[#f4f1ea]">
               experienced through
             </span>
-            <h2 className="ed-word font-display text-[12vw] md:text-[8rem] leading-[0.85] uppercase tracking-tighter text-[#f4f1ea] whitespace-nowrap">
+            <h2 className="ed-word font-display text-[clamp(2.5rem,12vw,8rem)] leading-[0.85] uppercase tracking-tighter bg-gradient-to-r from-[#1a1a1a] via-[#4a0d0d] to-[#8f1e1e] text-transparent bg-clip-text pb-2">
               Refined <br /> Storytelling
             </h2>
             <div className="flex items-center gap-4 mt-4">

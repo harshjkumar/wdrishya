@@ -9,41 +9,33 @@ gsap.registerPlugin(ScrollTrigger);
    FEATURED IN (Updated)
    Redesign Goals:
    - Use TYPOGRAPHY for logos to match site font (Display Serif)
-   - Layout: Single clean row with elegant separators
-   - Animation: Subtle reveal + slight drift
+   - Layout: Continuous horizontal scroll (Marquee)
+   - Content: Services list instead of brands
+   - Animation: Auto-scrolling loop
 ────────────────────────────────────────────────────────────────── */
 
-const BRANDS = [
-  "Vogue",
-  "Elle",
-  "Brides",
-  "WedLuxe",
-  "Harper's Bazaar",
-  "Style Me Pretty",
+const SERVICES = [
+  "Wedding Photography",
+  "Film Shoot",
+  "Videography",
+  "Personal Portraits",
+  "Corporate Photography",
+  "Event Photography",
+  "Commercial Photography",
+  "Portrait Photography",
 ];
 
 export default function FeaturedLogos() {
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      /* 1. Fade + Slide Up Container */
-      gsap.from(containerRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
-
-      /* 2. Divider Lines Expand */
-      gsap.from(".logo-divider", {
-        scaleX: 0,
+    /* 1. Divider Lines Expand */
+    gsap.fromTo(
+      ".logo-divider",
+      { scaleX: 0 },
+      {
+        scaleX: 1,
         duration: 1.5,
         ease: "expo.inOut",
         stagger: 0.2,
@@ -52,27 +44,12 @@ export default function FeaturedLogos() {
           start: "top 85%",
           once: true,
         },
-      });
-
-      /* 3. Text Items Stagger In */
-      gsap.from(".brand-item", {
-        y: 20,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.1,
-        delay: 0.3,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
+      }
+    );
   }, []);
+
+  // Use 4 sets to ensure seamless looping with -50% translate (moves 2 sets)
+  const marqueeContent = [...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES];
 
   return (
     <section
@@ -80,33 +57,54 @@ export default function FeaturedLogos() {
       id="featured-on"
       className="relative bg-[#f4f1ea] py-24 md:py-32 overflow-hidden flex flex-col justify-center"
     >
-      <div className="max-w-[90%] md:max-w-7xl mx-auto w-full px-6">
-
+      <div className="w-full">
         {/* Top Divider */}
-        <div className="logo-divider w-full h-[1px] bg-[#1a1a1a]/20 mb-16 origin-left" />
+        <div className="max-w-[90%] md:max-w-7xl mx-auto w-full px-6">
+          <div className="logo-divider w-full h-[1px] bg-[#1a1a1a]/20 mb-12 origin-left" />
+        </div>
 
-        <div className="flex flex-col items-center gap-12">
-
+        <div className="flex flex-col gap-12">
           {/* Label */}
-          <span className="brand-item font-sans text-xs tracking-[0.4em] uppercase text-[#1a1a1a] opacity-60">
-            As Featured In
-          </span>
+          <div className="max-w-[90%] md:max-w-7xl mx-auto w-full px-6 text-center">
+            <span className="font-sans text-xs tracking-[0.4em] uppercase text-[#8f1e1e] opacity-90 font-medium">
+              Our Services
+            </span>
+          </div>
 
-          {/* Brands Container */}
-          <div ref={containerRef} className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12 items-center justify-items-center text-center">
-            {BRANDS.map((brand, i) => (
-              <span
-                key={brand}
-                className="brand-item font-display text-2xl md:text-3xl text-[#1a1a1a] uppercase tracking-wide cursor-default hover:text-[#a0a0a0] transition-colors duration-300"
-              >
-                {brand}
-              </span>
-            ))}
+          {/* Marquee Container */}
+          <div className="relative w-full overflow-hidden py-4">
+            {/* Gradient Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 z-10 bg-gradient-to-r from-[#f4f1ea] to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 z-10 bg-gradient-to-l from-[#f4f1ea] to-transparent pointer-events-none" />
+
+            {/* Scrolling Track */}
+            <div className="flex w-max marquee-track-left items-center">
+              {marqueeContent.map((service, i) => {
+                const isOutline = i % 2 !== 0; // Alternate style
+                return (
+                  <span
+                    key={`${service}-${i}`}
+                    className={`
+                      font-display uppercase tracking-tight whitespace-nowrap px-10 md:px-16 transition-colors duration-300
+                      text-5xl md:text-8xl lg:text-[7rem] leading-none
+                      ${isOutline
+                        ? "text-transparent [-webkit-text-stroke:1px_#1a1a1a] hover:text-[#8f1e1e] hover:[-webkit-text-stroke:1px_#8f1e1e]"
+                        : "text-[#1a1a1a] hover:text-[#8f1e1e]"
+                      }
+                    `}
+                  >
+                    {service}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Bottom Divider */}
-        <div className="logo-divider w-full h-[1px] bg-[#1a1a1a]/20 mt-16 origin-right" />
+        <div className="max-w-[90%] md:max-w-7xl mx-auto w-full px-6">
+          <div className="logo-divider w-full h-[1px] bg-[#1a1a1a]/20 mt-12 origin-right" />
+        </div>
       </div>
     </section>
   );

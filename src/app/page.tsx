@@ -5,10 +5,12 @@ import Navbar from "@/components/sections/navbar";
 import HeroSection from "@/components/sections/hero";
 import FeaturedLogos from "@/components/sections/featured-logos";
 import ParallaxGallery from "@/components/sections/parallax-gallery";
+import BehindTheScenes from "@/components/portfolio/behind-the-scenes";
 import EditorialStatement from "@/components/sections/editorial-statement";
 import DiscoverWork from "@/components/sections/discover-work";
 import ProjectShowcase from "@/components/sections/project-showcase";
 import Testimonials from "@/components/sections/testimonials";
+import AlbumCarousel from "@/components/portfolio/album-carousel";
 import AboutDM from "@/components/sections/about-dm";
 import PortfolioPreview from "@/components/sections/portfolio-preview";
 import JournalPreview from "@/components/sections/journal-preview";
@@ -47,6 +49,10 @@ export default function Home() {
         <div className="relative z-10 bg-white shadow-[0_-50px_100px_rgba(0,0,0,0.1)]">
           <FeaturedLogos />
           <ParallaxGallery />
+
+          {/* Our Process — Behind The Artistry */}
+          <BehindTheScenes />
+
           <EditorialStatement />
           <DiscoverWork />
           {/* Project Showcase needs its own stacking context or logic if it has internal pins */}
@@ -54,6 +60,9 @@ export default function Home() {
             <ProjectShowcase />
           </div>
           <Testimonials />
+
+          {/* Wedding Collection — Recent Albums */}
+          <AlbumCarousel />
         </div>
 
         {/* 3. ABOUT DM (Sticky Background) */}

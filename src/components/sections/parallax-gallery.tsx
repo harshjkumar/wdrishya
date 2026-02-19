@@ -7,20 +7,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ──────────────────────────────────────────────────────────────────
    PARALLAX GALLERY
-   Animations:
-   1. Each image drifts at a DIFFERENT vertical speed (true parallax)
-   2. Images rotate slightly as they enter (entrance effect)
-   3. Images fade and clip-reveal as they enter viewport
-   4. TWO background marquee rows scroll in opposite directions
-   5. Small caption text appears on image hover
-   6. Overall section scale/opacity on scroll entry
+   Mobile: Simple vertical stack, no parallax
+   Desktop: Absolute-positioned scattered layout with parallax
 ────────────────────────────────────────────────────────────────── */
 
 const GALLERY = [
   {
     src: "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
     style: { width: "37%", top: "0%", left: "0%" },
-    speed: 0.55,   // relative scroll speed
+    speed: 0.55,
     rotate: -1.5,
     label: "Rome, Italy",
     aspect: "4/5",
@@ -64,17 +59,19 @@ export default function ParallaxGallery() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
       const section = sectionRef.current!;
 
-      /* ── per-image parallax at different speeds ── */
+      /* ── per-image parallax at different speeds (DESKTOP ONLY) ── */
       GALLERY.forEach((item, i) => {
         const el = section.querySelector<HTMLElement>(`.gal-img-${i}`);
         if (!el) return;
 
         const inner = el.querySelector<HTMLElement>(".gal-inner");
 
-        // entrance: clip reveal + rotate + fade
+        // entrance: scale + fade
         gsap.from(el, {
           opacity: 0,
           scale: 0.88,
@@ -88,7 +85,7 @@ export default function ParallaxGallery() {
           },
         });
 
-        // parallax drift  — each img has unique speed
+        // parallax drift
         const yAmt = (item.speed - 1) * 120;
         gsap.to(el, {
           y: yAmt,
@@ -101,7 +98,7 @@ export default function ParallaxGallery() {
           },
         });
 
-        // inner image counter-scale (zoom-out as parent shifts)
+        // inner image counter-scale
         if (inner) {
           gsap.to(inner, {
             scale: 1.12,
@@ -116,7 +113,7 @@ export default function ParallaxGallery() {
         }
       });
 
-      /* ── marquee row 1 (left) ── */
+      /* ── marquee rows (DESKTOP ONLY) ── */
       gsap.to(".marquee-row-1", {
         x: "-8%",
         ease: "none",
@@ -128,7 +125,6 @@ export default function ParallaxGallery() {
         },
       });
 
-      /* ── marquee row 2 (right) ── */
       gsap.to(".marquee-row-2", {
         x: "6%",
         ease: "none",
@@ -139,19 +135,34 @@ export default function ParallaxGallery() {
           scrub: 1,
         },
       });
-    }, sectionRef);
+    });
 
-    return () => ctx.revert();
+    // Mobile: simple fade-in only
+    mm.add("(max-width: 767px)", () => {
+      gsap.from(".gal-mobile-item", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          once: true,
+        },
+      });
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
       className="relative bg-[#f8f5f0] overflow-hidden"
-      style={{ minHeight: "180vh" }}
     >
-      {/* ── BG MARQUEE TEXT ── */}
-      <div className="absolute inset-0 flex flex-col justify-center gap-12 pointer-events-none select-none overflow-hidden">
+      {/* ── BG MARQUEE TEXT (desktop only) ── */}
+      <div className="absolute inset-0 hidden md:flex flex-col justify-center gap-12 pointer-events-none select-none overflow-hidden">
         <div className="marquee-row-1 whitespace-nowrap font-display text-[14vw] uppercase text-[#1a1a1a]/[0.03] leading-none will-change-transform">
           AUTHENTIC&nbsp;·&nbsp;EVOCATIVE&nbsp;·&nbsp;IMAGES&nbsp;·&nbsp;AUTHENTIC&nbsp;·&nbsp;EVOCATIVE&nbsp;·&nbsp;IMAGES&nbsp;·
         </div>
@@ -160,10 +171,10 @@ export default function ParallaxGallery() {
         </div>
       </div>
 
-      {/* ── IMAGES ── */}
+      {/* ── DESKTOP: Absolute scattered layout ── */}
       <div
         ref={containerRef}
-        className="relative z-10"
+        className="relative z-10 hidden md:block"
         style={{ height: "160vh" }}
       >
         {GALLERY.map((item, i) => (
@@ -194,8 +205,31 @@ export default function ParallaxGallery() {
         ))}
       </div>
 
+      {/* ── MOBILE: Simple grid layout ── */}
+      <div className="md:hidden px-4 py-16">
+        <div className="grid grid-cols-2 gap-3">
+          {GALLERY.map((item, i) => (
+            <div
+              key={i}
+              className={`gal-mobile-item overflow-hidden ${i === 0 ? "col-span-2" : ""}`}
+            >
+              <img
+                src={item.src}
+                alt={item.label}
+                className="w-full h-full object-cover"
+                style={{ aspectRatio: i === 0 ? "16/9" : "3/4" }}
+                loading="lazy"
+              />
+              <p className="font-sans text-[0.5rem] tracking-[0.25em] uppercase text-[#1a1a1a]/30 mt-2 px-1">
+                {item.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* small bottom label */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-10">
         <p className="font-sans text-[0.55rem] tracking-[0.4em] uppercase text-[#1a1a1a]/20 text-center">
           Selected Moments
         </p>

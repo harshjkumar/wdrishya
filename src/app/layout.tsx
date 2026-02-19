@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Didact_Gothic } from "next/font/google";
 import "./globals.css";
-import { VisualEditsMessenger } from "orchids-visual-edits";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -45,7 +44,6 @@ export default function RootLayout({
     <html lang="en" className={`${cormorant.variable} ${didact.variable}`}>
       <body className="antialiased bg-[#f8f5f0] text-[#1a1a1a] overflow-x-hidden">
         {children}
-        <VisualEditsMessenger />
       </body>
     </html>
   );

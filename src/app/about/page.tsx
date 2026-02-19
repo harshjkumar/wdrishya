@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Navbar from "@/components/sections/navbar";
 import FooterCTA from "@/components/sections/footer-cta";
+import useIsMobile from "@/hooks/useIsMobile";
 
 // ─── ANIMATED TEXT COMPONENT ──────────────────────────────
 const AnimatedText = ({ text, className, delay = 0 }: { text: string, className?: string, delay?: number }) => {
@@ -71,9 +72,11 @@ const SocialLink = ({ platform, url, icon }: { platform: string, url: string, ic
 
 export default function AboutPage() {
     const headerRef = useRef(null);
+    const isMobile = useIsMobile();
     const { scrollYProgress } = useScroll({ target: headerRef, offset: ["start start", "end start"] });
-    const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-    const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+    // Disable parallax on mobile — prevents scroll-linked recompositing
+    const y = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 200]);
+    const opacity = useTransform(scrollYProgress, [0, 0.8], isMobile ? [1, 1] : [1, 0]);
 
     return (
         <>
@@ -136,7 +139,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Decorative grain/lines */}
-                <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] contrast-150 brightness-100 mix-blend-multiply"></div>
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-noise-texture contrast-150 brightness-100 mix-blend-multiply"></div>
             </section>
 
             {/* ─── 2. THE FOUNDER (Anshul Singh Chauhan) ──────────────── */}
@@ -207,7 +210,7 @@ export default function AboutPage() {
 
             {/* ─── 3. STATS & CREDIBILITY ────────────────────────────── */}
             <section className="bg-[#1a1a1a] py-24 text-white overflow-hidden relative">
-                <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+                <div className="absolute inset-0 opacity-10 bg-noise-texture"></div>
 
                 <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">

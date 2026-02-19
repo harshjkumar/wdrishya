@@ -10,6 +10,10 @@ export default function SmoothScrollProvider({
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Skip Lenis on mobile — native scroll is smoother on touch devices
+    const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+    if (isMobile) return;
+
     const lenis = new Lenis({
       duration: 1.35,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -17,7 +21,6 @@ export default function SmoothScrollProvider({
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 0.85,
-      touchMultiplier: 1.5,
       infinite: false,
     });
 

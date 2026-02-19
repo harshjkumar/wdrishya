@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const portfolioImages = [
   {
@@ -19,13 +20,14 @@ const portfolioImages = [
 
 export default function PortfolioPreview() {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  /* Exit transition (Blur + Dim) as next section covers it */
+  /* Exit transition (Blur + Dim) — disabled on mobile */
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-  const contentOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0.4]);
-  const contentBlur = useTransform(scrollYProgress, [0.8, 1], ["blur(0px)", "blur(10px)"]);
+  const contentOpacity = useTransform(scrollYProgress, [0.8, 1], isMobile ? [1, 1] : [1, 0.4]);
+  const contentBlur = useTransform(scrollYProgress, [0.8, 1], isMobile ? ["blur(0px)", "blur(0px)"] : ["blur(0px)", "blur(10px)"]);
 
   return (
     <section ref={ref} className="bg-white py-16 md:py-36 overflow-hidden border-t border-black/[0.06] h-full flex flex-col justify-center">

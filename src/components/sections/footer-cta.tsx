@@ -1,15 +1,17 @@
 "use client";
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function FooterCTA() {
   const container = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start end", "end end"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [-50, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-50, 0]);
 
   return (
     <footer
@@ -18,7 +20,7 @@ export default function FooterCTA() {
       id="contact"
     >
       {/* Background Parallax Element */}
-      <motion.div style={{ y }} className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+      <motion.div style={isMobile ? undefined : { y }} className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
       </motion.div>
 
@@ -44,7 +46,7 @@ export default function FooterCTA() {
             </a>
           </div>
           <div className="mt-8 md:mt-0">
-            <a href="/book" className="inline-block bg-white text-black font-sans text-[0.65rem] tracking-[0.2em] uppercase px-8 py-4 hover:bg-white/90 transition-colors">
+            <a href="/book" className="inline-block bg-white text-black font-sans text-[0.65rem] tracking-[0.2em] uppercase px-8 py-4 hover:bg-[#8f1e1e] hover:text-white transition-colors duration-300">
               Book Your Consulting
             </a>
           </div>
@@ -111,7 +113,7 @@ export default function FooterCTA() {
                 placeholder="Enter your email"
                 className="bg-transparent text-white text-sm w-full outline-none placeholder:text-white/20"
               />
-              <button className="text-white/50 hover:text-white text-[10px] uppercase tracking-widest transition-colors">
+              <button className="text-white/50 hover:text-[#8f1e1e] text-[10px] uppercase tracking-widest transition-colors duration-300">
                 Join
               </button>
             </div>
@@ -121,7 +123,7 @@ export default function FooterCTA() {
         {/* 3. Bottom Brand & Copyright */}
         <div className="w-full flex flex-col items-center">
           {/* Massive Brand Name */}
-          <h1 className="font-display text-[15.5vw] leading-[0.75] text-[#f4f1ea]/[0.05] uppercase tracking-tight select-none pointer-events-none mix-blend-screen text-center">
+          <h1 className="font-display text-[clamp(3rem,15.5vw,20rem)] leading-[0.75] text-[#f4f1ea]/[0.05] uppercase tracking-tight select-none pointer-events-none mix-blend-screen text-center" style={{ willChange: 'auto' }}>
             Wedding Drishya
           </h1>
 

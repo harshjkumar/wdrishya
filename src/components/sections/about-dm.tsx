@@ -1,19 +1,21 @@
 "use client";
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function AboutDM() {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const isInView = useInView(ref, { once: true, margin: "-150px" });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-  /* Parallax for images */
-  const img1Y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const img2Y = useTransform(scrollYProgress, [0, 1], ["8%", "-8%"]);
+  /* Parallax for images — disabled on mobile */
+  const img1Y = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["-8%", "8%"]);
+  const img2Y = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["8%", "-8%"]);
 
-  /* Exit transition (Blur + Dim) as next section covers it */
-  const contentOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0.4]);
-  const contentBlur = useTransform(scrollYProgress, [0.8, 1], ["blur(0px)", "blur(10px)"]);
+  /* Exit transition — disabled on mobile */
+  const contentOpacity = useTransform(scrollYProgress, [0.8, 1], isMobile ? [1, 1] : [1, 0.4]);
+  const contentBlur = useTransform(scrollYProgress, [0.8, 1], isMobile ? ["blur(0px)", "blur(0px)"] : ["blur(0px)", "blur(10px)"]);
 
   return (
     <section ref={ref} className="bg-white py-24 md:py-44 overflow-hidden h-full" id="about">

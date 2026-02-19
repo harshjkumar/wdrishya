@@ -37,7 +37,7 @@ export default function JournalPreview() {
                             Stories, Tips & Inspiration
                         </p>
                     </div>
-                    <a href="#" className="hidden md:block font-sans text-xs uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a]/30 pb-1 hover:border-[#1a1a1a] transition-colors">
+                    <a href="/blog" className="hidden md:block font-sans text-xs uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a]/30 pb-1 hover:border-[#1a1a1a] transition-colors">
                         Read All Stories
                     </a>
                 </div>
@@ -67,7 +67,7 @@ export default function JournalPreview() {
                 </div>
 
                 <div className="mt-12 md:hidden text-center">
-                    <a href="#" className="font-sans text-xs uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a]/30 pb-1">
+                    <a href="/blog" className="font-sans text-xs uppercase tracking-[0.2em] text-[#1a1a1a] border-b border-[#1a1a1a]/30 pb-1">
                         Read All Stories
                     </a>
                 </div>

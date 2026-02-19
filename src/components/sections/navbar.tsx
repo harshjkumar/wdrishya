@@ -1,27 +1,27 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Stories", href: "#stories" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Journal", href: "/blog" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkBg, setDarkBg] = useState(false); // true when over light section
   const [hidden, setHidden] = useState(false);
+  const isMobile = useIsMobile();
 
   const lastY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      // hide on scroll down, show on scroll up
       setHidden(y > lastY.current && y > 120);
       lastY.current = y;
       setScrolled(y > 60);
@@ -38,6 +38,19 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
 
   const textColor = (scrolled || forceDark) && !menuOpen ? "text-[#1a1a1a]" : "text-white";
   const logoTextColor = menuOpen ? "text-white" : textColor;
+
+  // Mobile: use simpler opacity+translateY animation instead of expensive clipPath
+  const menuVariants = isMobile
+    ? {
+      initial: { opacity: 0, y: "-100%" },
+      animate: { opacity: 1, y: "0%" },
+      exit: { opacity: 0, y: "-100%" },
+    }
+    : {
+      initial: { clipPath: "inset(0 0 100% 0)" },
+      animate: { clipPath: "inset(0 0 0% 0)" },
+      exit: { clipPath: "inset(0 0 100% 0)" },
+    };
 
   return (
     <>
@@ -70,7 +83,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
 
           {/* CENTER NAV LINKS (desktop) */}
           <div className="hidden lg:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
-            {NAV_LINKS.slice(0, 4).map((link) => (
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -87,15 +100,15 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
               href="/book"
               className={`hidden md:block font-sans text-[0.62rem] tracking-[0.3em] uppercase px-5 py-2 border transition-all duration-400
                 ${(scrolled || forceDark) && !menuOpen
-                  ? "border-[#1a1a1a]/40 text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a]"
-                  : "border-white/40 text-white hover:bg-white hover:text-[#1a1a1a]"
+                  ? "border-[#1a1a1a]/40 text-[#1a1a1a] hover:bg-[#8f1e1e] hover:text-white hover:border-[#8f1e1e]"
+                  : "border-white/40 text-white hover:bg-[#8f1e1e] hover:text-white hover:border-[#8f1e1e]"
                 }
               `}
             >
               Book Now
             </a>
 
-            {/* Hamburger */}
+            {/* Hamburger — faster transitions on mobile */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
               className="flex flex-col justify-center items-end gap-[5px] w-9 h-9 group"
@@ -109,7 +122,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                   y: menuOpen ? 6 : 0,
                   backgroundColor: menuOpen ? "#ffffff" : ((scrolled || forceDark) ? "#1a1a1a" : "#ffffff"),
                 }}
-                transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+                transition={{ duration: isMobile ? 0.25 : 0.4, ease: [0.76, 0, 0.24, 1] }}
               />
               <motion.span
                 className="block h-[1px] rounded-full"
@@ -118,7 +131,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                   opacity: menuOpen ? 0 : 1,
                   backgroundColor: (scrolled || forceDark) ? "#1a1a1a" : "#ffffff",
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: isMobile ? 0.2 : 0.3 }}
               />
               <motion.span
                 className="block h-[1px] rounded-full"
@@ -128,7 +141,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                   y: menuOpen ? -6 : 0,
                   backgroundColor: menuOpen ? "#ffffff" : ((scrolled || forceDark) ? "#1a1a1a" : "#ffffff"),
                 }}
-                transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+                transition={{ duration: isMobile ? 0.25 : 0.4, ease: [0.76, 0, 0.24, 1] }}
               />
             </button>
           </div>
@@ -148,19 +161,19 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
         {menuOpen && (
           <motion.div
             className="fixed inset-0 z-[490] bg-[#1a1a1a] overflow-hidden grain"
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            {...menuVariants}
+            transition={{ duration: isMobile ? 0.4 : 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            {/* decorative horizontal line */}
-            <motion.div
-              className="absolute top-0 left-0 h-[1px] bg-white/10 origin-left"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              style={{ width: "100%" }}
-            />
+            {/* decorative horizontal line — desktop only */}
+            {!isMobile && (
+              <motion.div
+                className="absolute top-0 left-0 h-[1px] bg-white/10 origin-left"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: "100%" }}
+              />
+            )}
 
             <div className="flex flex-col md:flex-row h-full">
               {/* left — nav items */}
@@ -176,7 +189,11 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                         initial={{ y: "110%", opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: "-110%", opacity: 0 }}
-                        transition={{ duration: 0.65, delay: 0.1 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{
+                          duration: isMobile ? 0.4 : 0.65,
+                          delay: isMobile ? 0.05 + i * 0.05 : 0.1 + i * 0.08,
+                          ease: [0.22, 1, 0.36, 1]
+                        }}
                       >
                         <span className="relative inline-block group-hover:translate-x-4 transition-transform duration-500">
                           <span className="absolute -left-8 top-1/2 -translate-y-1/2 font-sans text-[0.6rem] tracking-[0.3em] text-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -194,7 +211,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 }}
+                  transition={{ duration: 0.5, delay: isMobile ? 0.3 : 0.55 }}
                 >
                   {["Instagram", "Pinterest", "TikTok"].map((s) => (
                     <a
@@ -208,7 +225,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                 </motion.div>
               </div>
 
-              {/* right — decorative image */}
+              {/* right — decorative image (DESKTOP ONLY) */}
               <motion.div
                 className="hidden md:block w-[35vw] relative overflow-hidden"
                 initial={{ opacity: 0, x: 60 }}
@@ -231,7 +248,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
               className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-8 md:px-14 py-6 border-t border-white/10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: isMobile ? 0.3 : 0.6 }}
             >
               <span className="font-sans text-[0.55rem] tracking-[0.35em] uppercase text-white/20">
                 © 2026 Wedding Drishya
