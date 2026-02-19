@@ -111,48 +111,47 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       )}
 
       {/* main content */}
-      <div ref={textRef} className="flex flex-col items-center gap-8 select-none">
-        {/* Wordmark */}
+      <div ref={textRef} className="flex flex-col items-center gap-8 select-none relative z-10 w-full px-6">
+        {/* Logo */}
         <motion.div
-          className="overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="w-48 md:w-64"
         >
-          <motion.h1
-            className="font-display text-white text-[clamp(1.8rem,5vw,3.5rem)] tracking-[0.5em] uppercase font-light"
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: isMobile ? 0.6 : 1, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-          >
-            Wedding Drishya
-          </motion.h1>
+          <img
+            src="/Wedding%20Drashya%20-%20PNG%20-%20Dark%20Background.png"
+            alt="Wedding Drishya"
+            className="w-full h-auto opacity-90"
+          />
         </motion.div>
 
-        {/* tagline */}
-        <motion.p
-          className="font-sans text-white/30 text-[0.6rem] tracking-[0.5em] uppercase"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: isMobile ? 0.4 : 0.8 }}
-        >
-          Fine Art Wedding Photography
-        </motion.p>
-
-        {/* counter */}
+        {/* Large Classic Counter */}
         <motion.div
-          className="mt-6 relative w-[120px] flex items-center justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          className="relative flex items-center justify-center mt-4"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           <span
-            className="font-display text-white/20 tabular-nums"
-            style={{ fontSize: "clamp(3rem,8vw,6rem)", lineHeight: 1 }}
+            className="font-display text-white text-[12vh] md:text-[18vh] leading-none tabular-nums italic font-light tracking-tighter mix-blend-difference"
           >
-            {String(count).padStart(2, "0")}
+            {count}
+          </span>
+          <span className="absolute top-2 right-[-1.5rem] md:right-[-2.5rem] font-sans text-[10px] md:text-xs text-white/40">
+            %
           </span>
         </motion.div>
+
+        {/* Minimal loading text */}
+        <motion.p
+          className="font-sans text-white/30 text-[0.6rem] tracking-[0.4em] uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          Loading Elements
+        </motion.p>
       </div>
 
       {/* bottom progress bar */}

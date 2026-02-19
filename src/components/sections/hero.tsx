@@ -231,9 +231,9 @@ export default function HeroSection() {
       {/* ── SPINNING CTA — DESKTOP ONLY ── */}
       <motion.div
         style={isMobile ? undefined : { opacity: contentOpacity }}
-        className="hero-cta absolute top-1/2 -translate-y-1/2 right-6 md:right-10 z-[30] hidden md:block"
+        className="hero-cta absolute top-1/2 -translate-y-1/2 right-4 md:right-10 z-[30] block"
       >
-        <a href="/book" className="relative block w-[10.5rem] h-[10.5rem] group">
+        <a href="/book" className="relative block w-[6rem] h-[6rem] md:w-[10.5rem] md:h-[10.5rem] group">
           <motion.div
             className="absolute inset-0"
             animate={{ rotate: 360 }}
