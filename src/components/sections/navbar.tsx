@@ -9,12 +9,23 @@ const NAV_LINKS = [
   { label: "Journal", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+  {
+    label: "Pages",
+    href: "#",
+    subItems: [
+      { label: "Testimonials", href: "/testimonials" },
+      { label: "FAQs", href: "/faqs" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms & Conditions", href: "/terms" },
+    ]
+  },
 ];
 
 export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
   const lastY = useRef(0);
@@ -73,7 +84,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
 
         <div className="relative flex items-center justify-between px-6 md:px-10 lg:px-14 py-5">
           {/* LOGO */}
-          <a href="#home" className="group z-10">
+          <a href="/" className="group z-10">
             <span
               className={`font-display tracking-[0.4em] text-[0.75rem] md:text-sm uppercase transition-colors duration-500 ${logoTextColor}`}
             >
@@ -84,13 +95,36 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
           {/* CENTER NAV LINKS (desktop) */}
           <div className="hidden lg:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`font-sans text-[0.62rem] tracking-[0.3em] uppercase hover-line transition-colors duration-300 ${textColor}`}
-              >
-                {link.label}
-              </a>
+              <div key={link.label} className="relative group">
+                <a
+                  href={link.href}
+                  className={`font-sans text-[0.62rem] tracking-[0.3em] uppercase hover-line transition-colors duration-300 flex items-center gap-1.5 ${textColor} ${link.subItems ? "cursor-default" : ""}`}
+                >
+                  {link.label}
+                  {link.subItems && (
+                    <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  )}
+                </a>
+
+                {/* Desktop Dropdown */}
+                {link.subItems && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 before:absolute before:inset-0 before:-top-6 before:-z-10 before:bg-transparent">
+                    <div className="bg-white border border-[#1a1a1a]/5 p-2 flex flex-col min-w-[200px] shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+                      {link.subItems.map(subItem => (
+                        <a
+                          key={subItem.label}
+                          href={subItem.href}
+                          className="font-sans text-[0.55rem] tracking-[0.25em] uppercase text-[#1a1a1a]/70 hover:text-[#1a1a1a] hover:bg-[#1a1a1a]/5 px-5 py-3.5 transition-colors text-center"
+                        >
+                          {subItem.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
@@ -178,14 +212,10 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
             <div className="flex flex-col md:flex-row h-full">
               {/* left — nav items */}
               <div className="flex-1 flex flex-col justify-center px-8 md:px-14 lg:px-24 pt-28 md:pt-0">
-                <nav className="flex flex-col gap-1">
+                <nav className="flex flex-col gap-1 overflow-y-auto no-scrollbar pb-10">
                   {NAV_LINKS.map((link, i) => (
                     <div key={link.label} className="overflow-hidden">
-                      <motion.a
-                        href={link.href}
-                        onClick={() => setMenuOpen(false)}
-                        className="block font-display text-white uppercase leading-[1] tracking-[0.04em] group"
-                        style={{ fontSize: "clamp(2.8rem, 7vw, 7rem)" }}
+                      <motion.div
                         initial={{ y: "110%", opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: "-110%", opacity: 0 }}
@@ -195,13 +225,69 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                           ease: [0.22, 1, 0.36, 1]
                         }}
                       >
-                        <span className="relative inline-block group-hover:translate-x-4 transition-transform duration-500">
-                          <span className="absolute -left-8 top-1/2 -translate-y-1/2 font-sans text-[0.6rem] tracking-[0.3em] text-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            0{i + 1}
-                          </span>
-                          {link.label}
-                        </span>
-                      </motion.a>
+                        {link.subItems ? (
+                          <div className="flex flex-col">
+                            <button
+                              onClick={() => setMobileDropdown(mobileDropdown === link.label ? null : link.label)}
+                              className="text-left font-display text-white uppercase leading-[1] tracking-[0.04em] flex items-center gap-4 group"
+                              style={{ fontSize: "clamp(2.8rem, 7vw, 7rem)" }}
+                            >
+                              <span className="relative inline-block group-hover:translate-x-4 transition-transform duration-500">
+                                <span className="absolute -left-8 top-1/2 -translate-y-1/2 font-sans text-[0.6rem] tracking-[0.3em] text-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                  0{i + 1}
+                                </span>
+                                {link.label}
+                              </span>
+                              <motion.svg
+                                animate={{ rotate: mobileDropdown === link.label ? 180 : 0 }}
+                                className="w-6 h-6 md:w-10 md:h-10 text-white/40 group-hover:text-white transition-colors group-hover:translate-x-4 hidden md:block" // Hidden on extra small phones if too tight, but block otherwise
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                              </motion.svg>
+                            </button>
+
+                            <AnimatePresence>
+                              {mobileDropdown === link.label && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                  className="overflow-hidden ml-2 md:ml-4 mt-4"
+                                >
+                                  <div className="flex flex-col gap-4 border-l border-white/20 pl-6 py-2">
+                                    {link.subItems.map((sub) => (
+                                      <a
+                                        key={sub.label}
+                                        href={sub.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="font-sans text-[0.65rem] md:text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors py-1 hover:translate-x-2 transform duration-300"
+                                      >
+                                        {sub.label}
+                                      </a>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        ) : (
+                          <a
+                            href={link.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="block font-display text-white uppercase leading-[1] tracking-[0.04em] group"
+                            style={{ fontSize: "clamp(2.8rem, 7vw, 7rem)" }}
+                          >
+                            <span className="relative inline-block group-hover:translate-x-4 transition-transform duration-500">
+                              <span className="absolute -left-8 top-1/2 -translate-y-1/2 font-sans text-[0.6rem] tracking-[0.3em] text-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                0{i + 1}
+                              </span>
+                              {link.label}
+                            </span>
+                          </a>
+                        )}
+                      </motion.div>
                     </div>
                   ))}
                 </nav>
@@ -234,7 +320,7 @@ export default function Navbar({ forceDark = false }: { forceDark?: boolean }) {
                 transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               >
                 <img
-                  src="/image/471848663_3443499625953083_5705164155189859683_n..jpg"
+                  src="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg"
                   alt=""
                   className="w-full h-full object-cover opacity-40 scale-105"
                 />

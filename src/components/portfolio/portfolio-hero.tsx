@@ -169,7 +169,7 @@ export default function PortfolioHero() {
                         muted
                         playsInline
                         className="w-full h-full object-cover"
-                        poster="/image/630172917_18155680606444622_4404360271316279713_n..jpg"
+                        poster="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587547/a14/P_A-219_ppaj7m.jpg"
                     >
                         <source
                             src="https://cdn.prod.website-files.com/65672ae1df05229c6a36dae7/659d43d995e8dd9e35a5ed4c_home-page-cover-transcode.mp4"

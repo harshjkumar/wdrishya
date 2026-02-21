@@ -4,6 +4,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { motion, useScroll, useTransform } from "framer-motion";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useHomeImages } from "@/components/home-images-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,8 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const heroImages = useHomeImages("hero");
+  const posterUrl = heroImages.length > 0 ? heroImages[0].cloudinary_url : "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587566/a14/P_A-218_cxhaen.jpg";
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -105,7 +108,7 @@ export default function HeroSection() {
             muted
             playsInline
             className="w-full h-full object-cover"
-            poster="/image/630172917_18155680606444622_4404360271316279713_n..jpg"
+            poster={posterUrl}
           >
             <source
               src="https://cdn.prod.website-files.com/65672ae1df05229c6a36dae7/659d43d995e8dd9e35a5ed4c_home-page-cover-transcode.mp4"

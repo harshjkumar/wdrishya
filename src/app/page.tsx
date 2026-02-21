@@ -1,6 +1,5 @@
-"use client";
-import React, { useState, useCallback } from "react";
-import Preloader from "@/components/sections/preloader";
+import React from "react";
+import { Analytics } from "@vercel/analytics/next"
 import Navbar from "@/components/sections/navbar";
 import HeroSection from "@/components/sections/hero";
 import FeaturedLogos from "@/components/sections/featured-logos";
@@ -16,27 +15,17 @@ import PortfolioPreview from "@/components/sections/portfolio-preview";
 import JournalPreview from "@/components/sections/journal-preview";
 import BrandSignature from "@/components/sections/brand-signature";
 import FooterCTA from "@/components/sections/footer-cta";
+import { HomeImagesProvider } from "@/components/home-images-context";
+import { getHomeImagesData } from "@/app/admin/actions";
 
-export default function Home() {
-  const [loaded, setLoaded] = useState(false);
-
-  const handlePreloaderDone = useCallback(() => {
-    setLoaded(true);
-  }, []);
+export default async function Home() {
+  const { data: homeImages } = await getHomeImagesData();
+  const validImages = homeImages || [];
 
   return (
-    <>
-      {/* Preloader — shown until animation completes */}
-      <Preloader onComplete={handlePreloaderDone} />
-
+    <HomeImagesProvider images={validImages}>
       {/* Main site */}
-      <main
-        style={{
-          opacity: loaded ? 1 : 0,
-          transition: "opacity 0.6s ease",
-          pointerEvents: loaded ? "all" : "none",
-        }}
-      >
+      <main>
         {/* Fixed navigation */}
         <Navbar />
 
@@ -82,6 +71,6 @@ export default function Home() {
           <FooterCTA />
         </div>
       </main>
-    </>
+    </HomeImagesProvider>
   );
 }

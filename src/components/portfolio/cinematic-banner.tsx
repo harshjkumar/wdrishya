@@ -90,7 +90,7 @@ export default function CinematicBanner() {
             >
                 <div className="absolute inset-[-15%] grain">
                     <img
-                        src="/image/471848663_3443499625953083_5705164155189859683_n..jpg"
+                        src="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg"
                         alt="Cinematic wedding moment"
                         className="w-full h-full object-cover"
                     />

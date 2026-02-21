@@ -160,7 +160,7 @@ export default function AboutPage() {
                                     className="aspect-[3/4] bg-[#f0f0f0] overflow-hidden"
                                 >
                                     {/* Placeholder for Anshul's Portrait */}
-                                    <img src="/image/471848663_3443499625953083_5705164155189859683_n..jpg" className="w-full h-full object-covergrayscale hover:scale-105 transition-transform duration-700" alt="Anshul Singh Chauhan" />
+                                    <img src="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg" className="w-full h-full object-covergrayscale hover:scale-105 transition-transform duration-700" alt="Anshul Singh Chauhan" />
                                 </motion.div>
                                 <motion.div
                                     initial={{ opacity: 0, y: 40 }}
@@ -169,7 +169,7 @@ export default function AboutPage() {
                                     transition={{ duration: 0.8, delay: 0.2 }}
                                     className="aspect-[3/4] bg-[#f0f0f0] overflow-hidden mt-12"
                                 >
-                                    <img src="/image/483315914_18119708074444622_3750380914602508032_n..jpg" className="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700" alt="Wedding Detail" />
+                                    <img src="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg" className="w-full h-full object-cover grayscale hover:scale-105 transition-transform duration-700" alt="Wedding Detail" />
                                 </motion.div>
                             </div>
                         </div>

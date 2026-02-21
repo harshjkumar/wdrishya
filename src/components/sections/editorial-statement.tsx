@@ -3,34 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
+import { useHomeImages } from "@/components/home-images-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SLIDESHOW_IMAGES = [
-  "/image/382939674_1372198910174431_3400993913451848064_n..jpg",
-  "/image/384563683_1476889766418352_2330110963911469930_n..jpg",
-  "/image/414724275_746062994213703_5390916690999183179_n..webp",
-  "/image/416362426_2372523786291900_2661100008806875081_n..jpg",
-  "/image/416420292_215528934942209_2463772521820498499_n..webp",
-  "/image/471437681_3874976286052782_6066754281855616369_n..jpg",
-  "/image/471834729_1591357068241015_6757391096652795139_n..jpg",
-  "/image/471848663_3443499625953083_5705164155189859683_n..jpg",
-  "/image/471856430_590723197008667_5365878325392816818_n..jpg",
-  "/image/471926933_612630731161607_8618028661283559034_n..jpg",
-  "/image/472077805_438729035841247_1684520742985412950_n..jpg",
-  "/image/483159270_18120325618444622_8708046059407722550_n..jpg",
-  "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-  "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-  "/image/484516389_18120322792444622_4309740050952809697_n..jpg",
-  "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-  "/image/491433114_18124251487444622_6946680439628180157_n..jpg",
-  "/image/491893469_18124158730444622_3499460888742553311_n..jpg",
-  "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
-  "/image/500926684_18126904909444622_2937414089694625508_n..jpg",
-  "/image/504263133_18128196238444622_181556966236736630_n..jpg",
-  "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-  "/image/521951094_18132108865444622_241777447569608977_n..jpg",
-  "/image/630172917_18155680606444622_4404360271316279713_n..jpg"
+  "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771589555/a4/R_S-344_hcxb5i.jpg",
+  "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771590501/a5/S_S-3372_g24wfw.jpg"
 ];
 
 
@@ -38,17 +17,23 @@ const SLIDESHOW_IMAGES = [
 export default function EditorialStatement() {
   const sectionRef = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
+  const edImagesRaw = useHomeImages("editorial");
+
+  // Use context images if available, otherwise fallback
+  const finalImages = edImagesRaw.length >= 2
+    ? edImagesRaw.map(img => img.cloudinary_url)
+    : SLIDESHOW_IMAGES;
 
   // Cycle images every 2.5 seconds (slightly slower for elegance)
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % SLIDESHOW_IMAGES.length);
+      setIndex((prev) => (prev + 1) % finalImages.length);
     }, 2500);
     return () => clearInterval(timer);
-  }, []);
+  }, [finalImages.length]);
 
-  const imgLeftSrc = SLIDESHOW_IMAGES[index];
-  const imgRightSrc = SLIDESHOW_IMAGES[(index + 7) % SLIDESHOW_IMAGES.length];
+  const imgLeftSrc = finalImages[index];
+  const imgRightSrc = finalImages[(index + 1) % finalImages.length];
 
   useEffect(() => {
     const mm = gsap.matchMedia();

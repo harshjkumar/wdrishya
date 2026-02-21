@@ -412,22 +412,22 @@ export default function PortfolioFooter() {
                 </motion.div>
 
                 {/* ── 5. BOTTOM BAR ── */}
-                <div className="pf-bottom-bar flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5 pt-6">
+                <div className="pf-bottom-bar flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5 pt-6 text-center md:text-left">
                     <p className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/20">
                         © 2026 Wedding Drishya. All Rights Reserved.
                     </p>
 
-                    <div className="flex items-center gap-3">
-                        <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/15">
-                            Crafted with Passion & Precision
+                    <div className="flex flex-col md:flex-row items-center gap-3">
+                        <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25">
+                            Digital experience by <a href="https://mraspero.in" className="text-red-500 hover:text-red-400 transition-colors duration-300" target="_blank" rel="noopener noreferrer">Mr Aspero</a>
                         </span>
-                        <span className="text-white/10">·</span>
-                        <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/15">
-                            Fine Art Wedding Photography
+                        <span className="hidden md:inline text-white/10">·</span>
+                        <span className="hidden md:inline font-sans text-[9px] uppercase tracking-[0.15em] text-white/15">
+                            Crafted with Passion & Precision
                         </span>
                     </div>
 
-                    <div className="flex gap-6">
+                    <div className="flex gap-6 mt-2 md:mt-0">
                         <a
                             href="#"
                             className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/20 hover:text-white/50 transition-colors"

@@ -12,17 +12,16 @@ gsap.registerPlugin(ScrollTrigger);
    Mobile: Vertical card stack (no pin / no horizontal scroll)
 ────────────────────────────────────────────────────────────────── */
 
-const ALBUMS = [
+import { ALL_GALLERY_IMAGES } from "@/lib/gallery-data";
+
+const ALBUMS_BASE = [
     {
         id: "01",
         title: "The Grand Soirée",
-        couple: "Priya & Arjun",
+        couple: "Uttam & Vaishnavi",
         location: "Udaipur, Rajasthan",
-        date: "December 2025",
-        images: [
-            "/image/471834729_1591357068241015_6757391096652795139_n..jpg",
-            "/image/471926933_612630731161607_8618028661283559034_n..jpg",
-        ],
+        date: "December 2024",
+        folder: "a1",
         description: "A three-day celebration of love set against the ethereal backdrop of Lake Pichola. Every frame captures the royal grandeur and intimate tenderness of this magnificent affair.",
         category: "Destination Wedding",
         color: "#c4a882",
@@ -30,13 +29,10 @@ const ALBUMS = [
     {
         id: "02",
         title: "Whispers of the Sea",
-        couple: "Ananya & Vikram",
-        location: "Goa, India",
-        date: "February 2025",
-        images: [
-            "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-            "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-        ],
+        couple: "Sourabh & Sakshi",
+        location: "Alibaug, Maharashtra",
+        date: "February 2024",
+        folder: "a5",
         description: "Sun-kissed shores and golden hour romance — a beach wedding that blended coastal elegance with bohemian charm. The ocean was their witness, the sky their cathedral.",
         category: "Beach Wedding",
         color: "#7a9bb5",
@@ -44,46 +40,45 @@ const ALBUMS = [
     {
         id: "03",
         title: "Heritage of Hues",
-        couple: "Meera & Sahil",
+        couple: "Priya & Raj",
         location: "Jaipur, Rajasthan",
         date: "November 2024",
-        images: [
-            "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-            "/image/491433114_18124251487444622_6946680439628180157_n..jpg",
-        ],
+        folder: "a2",
         description: "The Pink City unveiled its timeless beauty as a backdrop for this resplendent celebration. Traditional elegance met modern love in a symphony of colors and emotions.",
         category: "Traditional Wedding",
         color: "#d4946a",
     },
     {
         id: "04",
-        title: "Garden of Dreams",
-        couple: "Riya & Karan",
-        location: "Mussoorie, Uttarakhand",
+        title: "Royal Grandeur",
+        couple: "Sparsh & Risha",
+        location: "Indore, Madhya Pradesh",
         date: "October 2024",
-        images: [
-            "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
-            "/image/500926684_18126904909444622_2937414089694625508_n..jpg",
-        ],
-        description: "Misty mountains and dew-kissed gardens framed this intimate mountain wedding. Each photograph breathes the fresh mountain air and the warmth of two souls becoming one.",
-        category: "Mountain Wedding",
+        folder: "a4",
+        description: "A monumental royal wedding celebrating deep heritage. Each photograph breathes the grandeur of ancient palaces and the warmth of two souls becoming one.",
+        category: "Royal Wedding",
         color: "#6b8f6b",
     },
     {
         id: "05",
         title: "Celestial Union",
-        couple: "Nisha & Dev",
-        location: "Kerala, India",
+        couple: "Tanya & Kartik",
+        location: "Mumbai, Maharashtra",
         date: "August 2024",
-        images: [
-            "/image/504263133_18128196238444622_181556966236736630_n..jpg",
-            "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-        ],
-        description: "God's Own Country offered its lush backwaters and verdant landscapes as the canvas for this divine celebration. Tradition woven with natural splendor.",
-        category: "Backwater Wedding",
+        folder: "a3",
+        description: "An incredibly intimate and chic city wedding bringing close friends and family under one roof. Modern luxury woven with traditional splendor.",
+        category: "Intimate Wedding",
         color: "#5a8a6a",
     },
 ];
+
+const ALBUMS = ALBUMS_BASE.map(album => {
+    const folderImages = ALL_GALLERY_IMAGES.filter(img => img.folder === album.folder).map(img => img.src);
+    return {
+        ...album,
+        images: folderImages.length >= 2 ? [folderImages[0], folderImages[1]] : [folderImages[0] || "", folderImages[0] || ""]
+    };
+});
 
 export default function AlbumShowcase() {
     const sectionRef = useRef<HTMLElement>(null);

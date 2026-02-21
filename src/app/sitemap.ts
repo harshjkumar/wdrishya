@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next'
+import { getAllCitySlugs } from '@/lib/seo-cities'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://www.weddingdrishya.com'
 
-    return [
+    const staticPages: MetadataRoute.Sitemap = [
         {
             url: baseUrl,
             lastModified: new Date(),
@@ -40,5 +41,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.9,
         },
+        {
+            url: `${baseUrl}/testimonials`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/faqs`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/privacy-policy`,
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/terms`,
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
     ]
+
+    // Dynamic city SEO pages
+    const citySlugs = getAllCitySlugs()
+    const cityPages: MetadataRoute.Sitemap = citySlugs.map(slug => ({
+        url: `${baseUrl}/cities/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+    }))
+
+    return [...staticPages, ...cityPages]
 }

@@ -71,12 +71,13 @@ export default function FooterCTA() {
             <h4 className="font-sans text-[10px] uppercase tracking-[0.2em] text-white/40 mb-6">Sitemap</h4>
             <ul className="flex flex-col gap-3">
               {[
-                { l: "Home", h: "#home" },
-                { l: "Portfolio", h: "#portfolio" },
-                { l: "Services", h: "#services" },
-                { l: "About Studio", h: "#about" },
-                { l: "Journal", h: "#stories" },
-                { l: "Contact", h: "#contact" }
+                { l: "Home", h: "/" },
+                { l: "Portfolio", h: "/portfolio" },
+                { l: "Testimonials", h: "/testimonials" },
+                { l: "FAQs", h: "/faqs" },
+                { l: "About", h: "/about" },
+                { l: "Journal", h: "/blog" },
+                { l: "Contact", h: "/contact" }
               ].map((item) => (
                 <li key={item.l}>
                   <a href={item.h} className="font-sans text-xs uppercase tracking-wider text-white/70 hover:text-white transition-colors">
@@ -133,12 +134,12 @@ export default function FooterCTA() {
             </p>
             <div className="flex gap-6">
               <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25">
-                Designed & Developed with Passion
+                Digital experience by <a href="https://mraspero.in" className="text-red-500 hover:text-red-400 transition-colors duration-300" target="_blank" rel="noopener noreferrer">Mr Aspero</a>
               </span>
             </div>
             <div className="flex gap-6">
-              <a href="#" className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25 hover:text-white/60 transition-colors">Privacy Policy</a>
-              <a href="#" className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25 hover:text-white/60 transition-colors">Terms of Use</a>
+              <a href="/privacy-policy" className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25 hover:text-white/60 transition-colors">Privacy Policy</a>
+              <a href="/terms" className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/25 hover:text-white/60 transition-colors">Terms of Use</a>
             </div>
           </div>
         </div>

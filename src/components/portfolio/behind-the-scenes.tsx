@@ -4,6 +4,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useHomeImages } from "@/components/home-images-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,6 +96,7 @@ export default function BehindTheScenes() {
     const [expandedStep, setExpandedStep] = useState<number | null>(null);
     const [activeStep, setActiveStep] = useState(0);
     const isMobile = useIsMobile();
+    const btsImages = useHomeImages("behind_the_scenes");
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -258,7 +260,7 @@ export default function BehindTheScenes() {
                                         <div className="relative overflow-hidden aspect-[4/3] group">
                                             <div className="bts-img absolute inset-[-10%] will-change-transform">
                                                 <img
-                                                    src={step.image}
+                                                    src={btsImages[i] ? btsImages[i].cloudinary_url : step.image}
                                                     alt={step.title}
                                                     className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
                                                     loading="lazy"

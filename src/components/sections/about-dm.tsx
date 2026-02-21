@@ -2,10 +2,12 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import useIsMobile from "@/hooks/useIsMobile";
+import { useHomeImages } from "@/components/home-images-context";
 
 export default function AboutDM() {
   const ref = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const aboutImages = useHomeImages("about");
   const isInView = useInView(ref, { once: true, margin: "-150px" });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
@@ -103,7 +105,7 @@ export default function AboutDM() {
             {/* Added mb-12 to separate images from text on mobile when stacked */}
             <motion.div className="overflow-hidden" style={{ y: img1Y }}>
               <img
-                src="/image/521289145_18131963746444622_8806270737169544479_n..jpg"
+                src={aboutImages[0]?.cloudinary_url || "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587287/a11/IMG_2293_pylmqe.jpg"}
                 alt="Wedding Drishya portrait 1"
                 className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 loading="lazy"
@@ -111,7 +113,7 @@ export default function AboutDM() {
             </motion.div>
             <motion.div className="overflow-hidden mt-12 md:mt-20" style={{ y: img2Y }}>
               <img
-                src="/image/521951094_18132108865444622_241777447569608977_n..jpg"
+                src={aboutImages[1]?.cloudinary_url || "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587442/a12/A_L-494_bsne7j.jpg"}
                 alt="Wedding Drishya portrait 2"
                 className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 loading="lazy"

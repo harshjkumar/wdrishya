@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { loginAction, checkSessionAction } from "./actions";
 
 export default function AdminLoginPage() {
     const router = useRouter();
@@ -13,13 +13,8 @@ export default function AdminLoginPage() {
 
     // Check if already logged in
     useEffect(() => {
-        if (!supabase) {
-            setCheckingSession(false);
-            return;
-        }
-
-        supabase.auth.getSession().then(({ data: { session } }: { data: { session: any } }) => {
-            if (session) {
+        checkSessionAction().then(hasSession => {
+            if (hasSession) {
                 router.replace("/admin/dashboard");
             } else {
                 setCheckingSession(false);
@@ -29,21 +24,14 @@ export default function AdminLoginPage() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!supabase) {
-            setError("Supabase client is not initialized. Check your environment variables.");
-            return;
-        }
 
         setLoading(true);
         setError("");
 
-        const { error: authError } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        const res = await loginAction(email, password);
 
-        if (authError) {
-            setError(authError.message);
+        if (res.error) {
+            setError(res.error);
             setLoading(false);
         } else {
             router.replace("/admin/dashboard");

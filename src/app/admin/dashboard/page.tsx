@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { checkSessionAction, logoutAction } from "../actions";
+import HomeImagesTab from "./home-images";
 
 // ─── TYPES ──────────────────────────────────────────────────
 interface GalleryImage {
@@ -36,7 +38,7 @@ export default function AdminDashboard() {
     const router = useRouter();
     const [user, setUser] = useState<{ email?: string } | null>(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<"images" | "settings">("images");
+    const [activeTab, setActiveTab] = useState<"images" | "settings" | "home_images">("images");
 
     // Image state
     const [images, setImages] = useState<GalleryImage[]>([]);
@@ -54,25 +56,14 @@ export default function AdminDashboard() {
 
     // ── Auth check ─────────────────────────────────────────────
     useEffect(() => {
-        if (!supabase) {
-            router.replace("/admin");
-            return;
-        }
-
-        supabase.auth.getSession().then(({ data: { session } }: { data: { session: any } }) => {
-            if (!session) {
+        checkSessionAction().then(hasSession => {
+            if (!hasSession) {
                 router.replace("/admin");
             } else {
-                setUser(session.user);
+                setUser({ email: "admin@weddingdrishya.com" });
                 setLoading(false);
             }
         });
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
-            if (!session) router.replace("/admin");
-        });
-
-        return () => subscription.unsubscribe();
     }, [router]);
 
     // ── Fetch images ───────────────────────────────────────────
@@ -231,7 +222,7 @@ export default function AdminDashboard() {
 
     // ── Sign out ───────────────────────────────────────────────
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
+        await logoutAction();
         router.replace("/admin");
     };
 
@@ -275,7 +266,7 @@ export default function AdminDashboard() {
             {/* ── TAB NAVIGATION ─────────────────────────────────────── */}
             <div className="border-b border-white/5 bg-[#0d0d0d]/50">
                 <div className="flex gap-0 px-6 md:px-10">
-                    {(["images", "settings"] as const).map((tab) => (
+                    {(["images", "settings", "home_images"] as const).map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
@@ -285,7 +276,7 @@ export default function AdminDashboard() {
                                     : "text-white/30 border-transparent hover:text-white/60"
                                 }`}
                         >
-                            {tab === "images" ? "📷 Gallery Images" : "⚙ Site Settings"}
+                            {tab === "images" ? "📷 Gallery Images" : tab === "settings" ? "⚙ Site Settings" : "🏠 Home Page Images"}
                         </button>
                     ))}
                 </div>
@@ -506,6 +497,11 @@ export default function AdminDashboard() {
                         </div>
                     </div>
                 )}
+
+                {/* ═══════════════════════════════════════════════════════ */}
+                {/* HOME IMAGES TAB                                         */}
+                {/* ═══════════════════════════════════════════════════════ */}
+                {activeTab === "home_images" && <HomeImagesTab />}
             </main>
 
             {/* ═══════════════════════════════════════════════════════ */}

@@ -1,29 +1,32 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { useHomeImages } from "@/components/home-images-context";
 
 const JOURNAL_POSTS = [
     {
         title: "The Art of Slow Living",
         category: "Inspiration",
-        image: "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586860/a6/S_A-361_fjxk9a.jpg",
         date: "Feb 10, 2026"
     },
     {
         title: "A Minimalist Union in Kerala",
         category: "Real Weddings",
-        image: "/image/471856430_590723197008667_5365878325392816818_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771588845/a9/0-355_jvun0o.jpg",
         date: "Jan 28, 2026"
     },
     {
         title: "Capturing Raw Emotion",
         category: "Behind the Scenes",
-        image: "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771697303/a3/T_K_21_of_6_l90vuh.jpg",
         date: "Jan 15, 2026"
     }
 ];
 
 export default function JournalPreview() {
+    const journalImages = useHomeImages("journal");
+
     return (
         <section className="bg-[#f8f5f0] pt-20 md:pt-32 pb-0 border-t border-[#1a1a1a]/5">
             <div className="container mx-auto px-6 md:px-12">
@@ -47,7 +50,7 @@ export default function JournalPreview() {
                         <div key={i} className="group cursor-pointer">
                             <div className="overflow-hidden mb-6 aspect-[4/5] relative">
                                 <motion.img
-                                    src={post.image}
+                                    src={journalImages[i]?.cloudinary_url || post.image}
                                     alt={post.title}
                                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                                     whileHover={{ scale: 1.05 }}

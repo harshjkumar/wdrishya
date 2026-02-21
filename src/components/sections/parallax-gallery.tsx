@@ -2,153 +2,69 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { ALL_GALLERY_IMAGES } from "@/lib/gallery-data";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ──────────────────────────────────────────────────────────────────
-   PARALLAX GALLERY
-   Mobile: Simple vertical stack, no parallax
-   Desktop: Absolute-positioned scattered layout with parallax
+   HORIZONTAL GALLERY (like Ambient Frames)
+   Mobile: Simple vertical stack
+   Desktop: Horizontal scroll inside a pinned section
 ────────────────────────────────────────────────────────────────── */
 
-const GALLERY = [
-  {
-    src: "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-    style: { width: "37%", top: "0%", left: "0%" },
-    speed: 0.55,
-    rotate: -1.5,
-    label: "Rome, Italy",
-    aspect: "4/5",
-  },
-  {
-    src: "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-    style: { width: "27%", top: "12%", left: "42%" },
-    speed: 1.35,
-    rotate: 1.0,
-    label: "Santorini, Greece",
-    aspect: "3/4",
-  },
-  {
-    src: "/image/484516389_18120322792444622_4309740050952809697_n..jpg",
-    style: { width: "22%", top: "30%", left: "73%" },
-    speed: 0.75,
-    rotate: -0.8,
-    label: "Lake Como",
-    aspect: "2/3",
-  },
-  {
-    src: "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-    style: { width: "30%", top: "55%", left: "18%" },
-    speed: 1.1,
-    rotate: 1.2,
-    label: "Amalfi Coast",
-    aspect: "3/4",
-  },
-  {
-    src: "/image/491433114_18124251487444622_6946680439628180157_n..jpg",
-    style: { width: "33%", top: "60%", left: "55%" },
-    speed: 0.65,
-    rotate: -1.0,
-    label: "Tuscany, Italy",
-    aspect: "4/5",
-  },
-];
+// Using first 24 images for the "24 FRAMES" look
+// Apply a specific high-quality/high-sharpness boost for the parallax section
+const GALLERY = ALL_GALLERY_IMAGES.slice(0, 24).map(item => ({
+  ...item,
+  src: item.src.replace('w_1000', 'w_1600').replace('e_sharpen:30', 'e_sharpen:100')
+}));
 
 export default function ParallaxGallery() {
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
       const section = sectionRef.current!;
+      const track = trackRef.current!;
 
-      /* ── per-image parallax at different speeds (DESKTOP ONLY) ── */
-      GALLERY.forEach((item, i) => {
-        const el = section.querySelector<HTMLElement>(`.gal-img-${i}`);
-        if (!el) return;
+      // Calculate total scroll distance
+      const getScrollAmount = () => {
+        let trackWidth = track.scrollWidth;
+        return -(trackWidth - window.innerWidth);
+      };
 
-        const inner = el.querySelector<HTMLElement>(".gal-inner");
-
-        // entrance: scale + fade
-        gsap.from(el, {
-          opacity: 0,
-          scale: 0.88,
-          rotation: item.rotate * 2,
-          duration: 1.2,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 90%",
-            once: true,
-          },
-        });
-
-        // parallax drift
-        const yAmt = (item.speed - 1) * 120;
-        gsap.to(el, {
-          y: yAmt,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5,
-          },
-        });
-
-        // inner image counter-scale
-        if (inner) {
-          gsap.to(inner, {
-            scale: 1.12,
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 2,
-            },
-          });
-        }
-      });
-
-      /* ── marquee rows (DESKTOP ONLY) ── */
-      gsap.to(".marquee-row-1", {
-        x: "-8%",
+      const tween = gsap.to(track, {
+        x: getScrollAmount,
         ease: "none",
         scrollTrigger: {
           trigger: section,
-          start: "top bottom",
-          end: "bottom top",
+          start: "top top",
+          end: () => `+=${getScrollAmount() * -1}`,
+          pin: true,
           scrub: 1,
+          invalidateOnRefresh: true,
         },
       });
 
-      gsap.to(".marquee-row-2", {
-        x: "6%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
+      return () => {
+        if (tween) tween.kill();
+      };
     });
 
     // Mobile: simple fade-in only
     mm.add("(max-width: 767px)", () => {
       gsap.from(".gal-mobile-item", {
         opacity: 0,
-        y: 30,
+        y: 40,
         duration: 0.8,
         ease: "power3.out",
         stagger: 0.1,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
+          start: "top 85%",
         },
       });
     });
@@ -157,83 +73,82 @@ export default function ParallaxGallery() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[#f8f5f0] overflow-hidden"
-    >
-      {/* ── BG MARQUEE TEXT (desktop only) ── */}
-      <div className="absolute inset-0 hidden md:flex flex-col justify-center gap-12 pointer-events-none select-none overflow-hidden">
-        <div className="marquee-row-1 whitespace-nowrap font-display text-[14vw] uppercase text-[#1a1a1a]/[0.03] leading-none will-change-transform">
-          AUTHENTIC&nbsp;·&nbsp;EVOCATIVE&nbsp;·&nbsp;IMAGES&nbsp;·&nbsp;AUTHENTIC&nbsp;·&nbsp;EVOCATIVE&nbsp;·&nbsp;IMAGES&nbsp;·
-        </div>
-        <div className="marquee-row-2 whitespace-nowrap font-display text-[10vw] uppercase text-[#1a1a1a]/[0.025] leading-none will-change-transform" style={{ alignSelf: "flex-end" }}>
-          FINE&nbsp;ART&nbsp;WEDDING&nbsp;PHOTOGRAPHY&nbsp;·&nbsp;FINE&nbsp;ART&nbsp;WEDDING&nbsp;PHOTOGRAPHY&nbsp;·
-        </div>
-      </div>
-
-      {/* ── DESKTOP: Absolute scattered layout ── */}
+    <section ref={sectionRef} className="relative bg-[#f8f5f0] overflow-hidden md:h-screen">
+      {/* ── DESKTOP: Horizontal Scroll Track ── */}
       <div
-        ref={containerRef}
-        className="relative z-10 hidden md:block"
-        style={{ height: "160vh" }}
+        ref={trackRef}
+        className="hidden md:flex h-full items-center gap-12 px-[10vw] will-change-transform"
       >
-        {GALLERY.map((item, i) => (
-          <div
-            key={i}
-            className={`gal-img-${i} absolute overflow-hidden will-change-transform group`}
-            style={{
-              ...item.style,
-              aspectRatio: item.aspect,
-            }}
-          >
-            <div className="gal-inner w-full h-full will-change-transform">
+        {GALLERY.map((item, i) => {
+          // Create an alternating rhythm of heights and vertical alignments
+          const pattern = i % 4;
+          let heightClass = "h-[70vh]";
+          let alignClass = "self-center";
+
+          if (pattern === 0) {
+            heightClass = "h-[65vh]";
+            alignClass = "self-end mb-24";
+          } else if (pattern === 1) {
+            heightClass = "h-[85vh]";
+            alignClass = "self-center";
+          } else if (pattern === 2) {
+            heightClass = "h-[75vh]";
+            alignClass = "self-start mt-16";
+          } else {
+            heightClass = "h-[80vh]";
+            alignClass = "self-center";
+          }
+
+          return (
+            <div
+              key={i}
+              className={`relative flex-shrink-0 flex items-center justify-center overflow-hidden rounded-[20px] ${heightClass} ${alignClass} group`}
+            >
               <img
                 src={item.src}
-                alt={item.label}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                alt={`Gallery ${i}`}
+                className="w-auto h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                 loading="lazy"
               />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 h-1/3 pointer-events-none" />
+              <div className="absolute bottom-6 right-6 font-sans text-xs tracking-widest text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {(i + 1).toString().padStart(2, '0')}
+              </div>
             </div>
+          );
+        })}
+      </div>
 
-            {/* hover caption */}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4">
-              <p className="font-sans text-[0.55rem] tracking-[0.35em] uppercase text-white/80">
-                {item.label}
-              </p>
+      {/* ── MOBILE: Simple layout ── */}
+      <div className="md:hidden px-4 py-20 flex flex-col gap-8">
+        {GALLERY.slice(0, 10).map((item, i) => (
+          <div
+            key={i}
+            className="gal-mobile-item relative w-full overflow-hidden rounded-[16px]"
+          >
+            <img
+              src={item.src}
+              alt={`Gallery ${i}`}
+              className="w-full h-auto object-cover"
+              loading="lazy"
+            />
+            <div className="absolute bottom-4 right-4 font-sans text-[10px] tracking-widest text-[#f8f5f0] drop-shadow-md">
+              {(i + 1).toString().padStart(2, '0')}
             </div>
           </div>
         ))}
       </div>
 
-      {/* ── MOBILE: Simple grid layout ── */}
-      <div className="md:hidden px-4 py-16">
-        <div className="grid grid-cols-2 gap-3">
-          {GALLERY.map((item, i) => (
-            <div
-              key={i}
-              className={`gal-mobile-item overflow-hidden ${i === 0 ? "col-span-2" : ""}`}
-            >
-              <img
-                src={item.src}
-                alt={item.label}
-                className="w-full h-full object-cover"
-                style={{ aspectRatio: i === 0 ? "16/9" : "3/4" }}
-                loading="lazy"
-              />
-              <p className="font-sans text-[0.5rem] tracking-[0.25em] uppercase text-[#1a1a1a]/30 mt-2 px-1">
-                {item.label}
-              </p>
-            </div>
-          ))}
-        </div>
+      {/* ── 24 FRAMES WATERMARK (Desktop) ── */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:flex items-center gap-4">
+        <div className="w-16 h-[1px] bg-[#1a1a1a]/20" />
+        <p className="font-sans text-[0.65rem] tracking-[0.4em] uppercase text-[#1a1a1a]/40 text-center">
+          {GALLERY.length} Frames
+        </p>
+        <div className="w-16 h-[1px] bg-[#1a1a1a]/20" />
       </div>
 
-      {/* small bottom label */}
-      <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-10">
-        <p className="font-sans text-[0.55rem] tracking-[0.4em] uppercase text-[#1a1a1a]/20 text-center">
-          Selected Moments
-        </p>
-      </div>
+
     </section>
   );
 }

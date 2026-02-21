@@ -18,191 +18,43 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CATEGORIES = ["All", "Destination", "Traditional", "Intimate", "Royal", "Beach"];
 
-const PROJECTS = [
-    {
-        id: 1,
-        title: "Eternal Vows",
-        couple: "Simran & Rajat",
-        location: "Udaipur Palace",
-        category: "Royal",
-        year: "2025",
-        image: "/image/471834729_1591357068241015_6757391096652795139_n..jpg",
-        description: "A majestic royal wedding in the heart of Udaipur. The celebration spanned three days of opulence, tradition, and profound emotion, set against the ethereal lake palace. We captured the grandeur of the architecture alongside the intimate glances that defined their story.",
-        gallery: [
-            "/image/471834729_1591357068241015_6757391096652795139_n..jpg",
-            "/image/471926933_612630731161607_8618028661283559034_n..jpg",
-            "/image/472077805_438729035841247_1684520742985412950_n..jpg",
-            "/image/471437681_3874976286052782_6066754281855616369_n..jpg"
-        ]
-    },
-    {
-        id: 2,
-        title: "Coastal Serenade",
-        couple: "Tara & Nikhil",
-        location: "Goa Beachside",
-        category: "Beach",
-        year: "2025",
-        image: "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-        description: "An intimate beach wedding where the sunset served as the most natural and beautiful backdrop. The sound of waves and the warmth of the sand complemented a celebration of pure love and simplicity.",
-        gallery: [
-            "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-            "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-            "/image/484516389_18120322792444622_4309740050952809697_n..jpg",
-            "/image/483159270_18120325618444622_8708046059407722550_n..jpg"
-        ]
-    },
-    {
-        id: 3,
-        title: "Midnight Garden",
-        couple: "Aditi & Rohit",
-        location: "Jaipur Heritage",
-        category: "Traditional",
-        year: "2024",
-        image: "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-        description: "A heritage celebration in Jaipur, where history met modern elegance. The night was alive with traditional rituals, vibrant colors, and a sense of shared joy that was palpable in every frame.",
-        gallery: [
-            "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-            "/image/491433114_18124251487444622_6946680439628180157_n..jpg",
-            "/image/491893469_18124158730444622_3499460888742553311_n..jpg",
-            "/image/500536052_18126904927444622_6799998608470213627_n..jpg"
-        ]
-    },
-    {
-        id: 4,
-        title: "Alpine Romance",
-        couple: "Kavya & Aditya",
-        location: "Mussoorie Hills",
-        category: "Destination",
-        year: "2024",
-        image: "/image/504263133_18128196238444622_181556966236736630_n..jpg",
-        description: "High in the mist-covered hills of Mussoorie, a destination wedding that felt like a dream. The cool mountain air and the breathtaking vistas provided a serene setting for a deeply personal commitment.",
-        gallery: [
-            "/image/504263133_18128196238444622_181556966236736630_n..jpg",
-            "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
-            "/image/500926684_18126904909444622_2937414089694625508_n..jpg"
-        ]
-    },
-    {
-        id: 5,
-        title: "Sacred Threads",
-        couple: "Pooja & Vivek",
-        location: "Varanasi Ghats",
-        category: "Traditional",
-        year: "2024",
-        image: "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-        description: "The spiritual aura of Varanasi's ghats served as a profound setting for this wedding. The flickering lamps, the sound of temple bells, and the flow of the Ganges created a mood of sacred eternity.",
-        gallery: [
-            "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-            "/image/521951094_18132108865444622_241777447569608977_n..jpg",
-            "/image/630172917_18155680606444622_4404360271316279713_n..jpg"
-        ]
-    },
-    {
-        id: 6,
-        title: "Whispering Pines",
-        couple: "Neha & Aryan",
-        location: "Kerala Backwaters",
-        category: "Intimate",
-        year: "2024",
-        image: "/image/382939674_1372198910174431_3400993913451848064_n..jpg",
-        description: "A celebration amongst the lush greenery and calm waters of Kerala. This intimate gathering was filled with laughter, local flavors, and moments of quiet beauty in nature's lap.",
-        gallery: [
-            "/image/382939674_1372198910174431_3400993913451848064_n..jpg",
-            "/image/384563683_1476889766418352_2330110963911469930_n..jpg",
-            "/image/414724275_746062994213703_5390916690999183179_n..webp"
-        ]
-    },
-    {
-        id: 7,
-        title: "Golden Hour",
-        couple: "Ishita & Manav",
-        location: "Jodhpur Fort",
-        category: "Royal",
-        year: "2023",
-        image: "/image/472077805_438729035841247_1684520742985412950_n..jpg",
-        description: "A royal affair in the Sun City of Jodhpur. The majestic Mehrangarh Fort stood as a silent witness to a celebration that was as timeless as the city itself.",
-        gallery: [
-            "/image/472077805_438729035841247_1684520742985412950_n..jpg",
-            "/image/471437681_3874976286052782_6066754281855616369_n..jpg",
-            "/image/416362426_2372523786291900_2661100008806875081_n..jpg"
-        ]
-    },
-    {
-        id: 8,
-        title: "Lakeside Vows",
-        couple: "Elena & Arjun",
-        location: "Nainital",
-        category: "Intimate",
-        year: "2024",
-        image: "/image/521951094_18132108865444622_241777447569608977_n..jpg",
-        description: "By the serene waters of Naini Lake, we captured a commitment that was as deep as the waters and as enduring as the surrounding mountains.",
-        gallery: [
-            "/image/521951094_18132108865444622_241777447569608977_n..jpg",
-            "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-            "/image/504263133_18128196238444622_181556966236736630_n..jpg"
-        ]
-    },
-    {
-        id: 9,
-        title: "Desert Mirage",
-        couple: "Noor & Faisal",
-        location: "Jaisalmer",
-        category: "Destination",
-        year: "2024",
-        image: "/image/471848663_3443499625953083_5705164155189859683_n..jpg",
-        description: "The golden sands of Jaisalmer provided a mystical backdrop for this union. As the sun dipped below the horizon, the desert became a stage for a celebration unlike any other.",
-        gallery: [
-            "/image/471848663_3443499625953083_5705164155189859683_n..jpg",
-            "/image/471856430_590723197008667_5365878325392816818_n..jpg",
-            "/image/472077805_438729035841247_1684520742985412950_n..jpg"
-        ]
-    },
-    {
-        id: 10,
-        title: "Backwater Bliss",
-        couple: "Ananya & Sid",
-        location: "Kumarakom",
-        category: "Beach",
-        year: "2025",
-        image: "/image/471437681_3874976286052782_6066754281855616369_n..jpg",
-        description: "A celebration of love amongst the tranquil backwaters of Kerala. The rustic charm and the natural beauty of Kumarakom created a setting of pure romantic bliss.",
-        gallery: [
-            "/image/471437681_3874976286052782_6066754281855616369_n..jpg",
-            "/image/521951094_18132108865444622_241777447569608977_n..jpg",
-            "/image/382939674_1372198910174431_3400993913451848064_n..jpg"
-        ]
-    },
-    {
-        id: 11,
-        title: "Santorini Soul",
-        couple: "Maria & Alex",
-        location: "Oia, Greece",
-        category: "Destination",
-        year: "2025",
-        image: "/image/416420292_215528934942209_2463772521820498499_n..webp",
-        description: "Overlooking the caldera, we documented a destination wedding that was as vibrant and soul-stirring as the island of Santorini itself.",
-        gallery: [
-            "/image/416420292_215528934942209_2463772521820498499_n..webp",
-            "/image/416362426_2372523786291900_2661100008806875081_n..jpg",
-            "/image/414724275_746062994213703_5390916690999183179_n..webp"
-        ]
-    },
-    {
-        id: 12,
-        title: "Himalayan High",
-        couple: "Riya & Kabir",
-        location: "Rishikesh",
-        category: "Intimate",
-        year: "2025",
-        image: "/image/630172917_18155680606444622_4404360271316279713_n..jpg",
-        description: "Near the holy Ganges and amidst the foothills of the Himalayas, this wedding was a beautiful blend of spirituality and modern intimacy.",
-        gallery: [
-            "/image/630172917_18155680606444622_4404360271316279713_n..jpg",
-            "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
-            "/image/504263133_18128196238444622_181556966236736630_n..jpg"
-        ]
-    }
+import { ALL_GALLERY_IMAGES } from "@/lib/gallery-data";
+
+const PROJECT_BASE = [
+    { id: 1, folder: "a1", title: "Uttam & Vaishnavi", couple: "Uttam and Vaishnavi", location: "Udaipur, Rajasthan", category: "Destination", year: "2024", description: "A beautiful celebration of Uttam & Vaishnavi filled with memorable moments and joy." },
+    { id: 2, folder: "a2", title: "Priya & Raj", couple: "Priya and Raj", location: "Jaipur, Rajasthan", category: "Traditional", year: "2024", description: "A beautiful celebration of Priya & Raj filled with memorable moments and joy." },
+    { id: 3, folder: "a3", title: "Tanya & Kartik", couple: "Tanya and Kartik", location: "Mumbai, Maharashtra", category: "Intimate", year: "2024", description: "A beautiful celebration of Tanya & Kartik filled with memorable moments and joy." },
+    { id: 4, folder: "a4", title: "Sparsh & Risha", couple: "Sparsh and Risha", location: "Indore, Madhya Pradesh", category: "Royal", year: "2024", description: "A beautiful celebration of Sparsh & Risha filled with memorable moments and joy." },
+    { id: 5, folder: "a5", title: "Sourabh & Sakshi", couple: "Sourabh and Sakshi", location: "Goa, India", category: "Beach", year: "2024", description: "A beautiful celebration of Sourabh & Sakshi filled with memorable moments and joy." },
+    { id: 6, folder: "a6", title: "Sahil & Ayushi", couple: "Sahil and Ayushi", location: "Jodhpur, Rajasthan", category: "Destination", year: "2024", description: "A beautiful celebration of Sahil & Ayushi filled with memorable moments and joy." },
+    { id: 7, folder: "a7", title: "Ravi & Sushma", couple: "Ravi and Sushma", location: "Bhopal, Madhya Pradesh", category: "Traditional", year: "2024", description: "A beautiful celebration of Ravi & Sushma filled with memorable moments and joy." },
+    { id: 8, folder: "a8", title: "Rahil & Yashasvi", couple: "Rahil and Yashasvi", location: "Pune, Maharashtra", category: "Intimate", year: "2024", description: "A beautiful celebration of Rahil & Yashasvi filled with memorable moments and joy." },
+    { id: 9, folder: "a9", title: "Pranjal & Shini", couple: "Pranjal and Shini", location: "Gwalior, Madhya Pradesh", category: "Royal", year: "2024", description: "A beautiful celebration of Pranjal & Shini filled with memorable moments and joy." },
+    { id: 10, folder: "a10", title: "Harsh & Angira", couple: "Harsh and Angira", location: "Alibaug, Maharashtra", category: "Beach", year: "2024", description: "A beautiful celebration of Harsh & Angira filled with memorable moments and joy." },
+    { id: 11, folder: "a11", title: "Arun & Priyanka", couple: "Arun and Priyanka", location: "Udaipur, Rajasthan", category: "Destination", year: "2024", description: "A beautiful celebration of Arun & Priyanka filled with memorable moments and joy." },
+    { id: 12, folder: "a12", title: "Ankit & Liena", couple: "Ankit and Liena", location: "Delhi, India", category: "Traditional", year: "2024", description: "A beautiful celebration of Ankit & Liena filled with memorable moments and joy." },
+    { id: 13, folder: "a13", title: "Amita & Ayush", couple: "Amita and Ayush", location: "Bangalore, Karnataka", category: "Intimate", year: "2024", description: "A beautiful celebration of Amita & Ayush filled with memorable moments and joy." },
+    { id: 14, folder: "a14", title: "Adarsh & Pooja", couple: "Adarsh and Pooja", location: "Jaisalmer, Rajasthan", category: "Royal", year: "2024", description: "A beautiful celebration of Adarsh & Pooja filled with memorable moments and joy." }
 ];
+
+/* Enhance Cloudinary URLs for maximum quality on cards */
+function enhanceUrl(url: string): string {
+    return url
+        .replace(/e_sharpen:\d+/, "e_sharpen:80")
+        .replace(/w_\d+/, "w_1600");
+}
+
+export const PROJECTS = PROJECT_BASE.map(proj => {
+    // Find all images matching this folder
+    const folderImages = ALL_GALLERY_IMAGES.filter(img => img.folder === proj.folder).map(img => enhanceUrl(img.src));
+    // Use the first image as main image, or a fallback if empty
+    const mainImage = folderImages.length > 0 ? folderImages[0] : "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg";
+    return {
+        ...proj,
+        image: mainImage,
+        gallery: folderImages.length > 0 ? folderImages : [mainImage]
+    };
+});
 
 export default function ProjectsGrid() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -354,7 +206,7 @@ export default function ProjectsGrid() {
 }
 
 /* ── TILT CARD COMPONENT ── */
-function TiltCard({ project, index, onClick }: { project: typeof PROJECTS[0]; index: number; onClick: () => void }) {
+export function TiltCard({ project, index, onClick }: { project: typeof PROJECTS[0]; index: number; onClick: () => void }) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -430,7 +282,35 @@ function TiltCard({ project, index, onClick }: { project: typeof PROJECTS[0]; in
 }
 
 /* ── PROJECT PREVIEW COMPONENT ── */
-function ProjectPreview({ project, onClose }: { project: typeof PROJECTS[0]; onClose: () => void }) {
+export function ProjectPreview({ project, onClose }: { project: typeof PROJECTS[0]; onClose: () => void }) {
+    const [activeSlide, setActiveSlide] = useState(0);
+    const totalSlides = project.gallery.length;
+
+    const goNext = useCallback(() => {
+        setActiveSlide((prev) => (prev + 1) % totalSlides);
+    }, [totalSlides]);
+
+    const goPrev = useCallback(() => {
+        setActiveSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+    }, [totalSlides]);
+
+    /* Auto-slide every 3 seconds */
+    useEffect(() => {
+        const timer = setInterval(goNext, 3000);
+        return () => clearInterval(timer);
+    }, [goNext]);
+
+    /* Keyboard navigation */
+    useEffect(() => {
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === "ArrowRight") goNext();
+            else if (e.key === "ArrowLeft") goPrev();
+            else if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [goNext, goPrev, onClose]);
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -438,41 +318,98 @@ function ProjectPreview({ project, onClose }: { project: typeof PROJECTS[0]; onC
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[1000] flex items-center justify-center bg-white"
         >
-            {/* Close Button — Moved lower (top-12) and z-index higher */}
+            {/* Close Button */}
             <button
                 onClick={onClose}
-                className="absolute top-12 right-12 z-[1100] group flex items-center gap-3 mix-blend-difference"
+                className="absolute top-6 right-6 md:top-12 md:right-12 z-[1100] group flex items-center gap-3"
             >
-                <span className="font-sans text-[0.55rem] tracking-[0.4em] uppercase text-white/40 group-hover:text-white transition-colors">
+                <span className="font-sans text-[0.55rem] tracking-[0.4em] uppercase text-[#1a1a1a]/40 group-hover:text-[#1a1a1a] transition-colors hidden md:inline">
                     Close
                 </span>
-                <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300">
-                    <svg className="w-4 h-4 text-white group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-10 h-10 border border-[#1a1a1a]/20 flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all duration-300">
+                    <svg className="w-4 h-4 text-[#1a1a1a] group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </div>
             </button>
 
             <div className="w-full h-full flex flex-col lg:flex-row overflow-hidden">
-                {/* Left side — Scrolling Gallery */}
-                <div className="w-full lg:w-[60%] h-[50vh] lg:h-full overflow-y-auto custom-scrollbar bg-[#f8f5f0]">
-                    <div className="flex flex-col gap-4 p-4 lg:p-12">
-                        {project.gallery.map((img, i) => (
+                {/* Left side — Horizontal Slider Gallery */}
+                <div className="w-full lg:w-[60%] h-[50vh] lg:h-full relative bg-[#0a0a0a] overflow-hidden">
+                    {/* Slides */}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeSlide}
+                            initial={{ opacity: 0, x: 60 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -60 }}
+                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute inset-0"
+                        >
+                            <img
+                                src={project.gallery[activeSlide]}
+                                alt={`${project.title} - ${activeSlide + 1}`}
+                                className="w-full h-full object-contain"
+                            />
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Navigation Buttons */}
+                    <div className="absolute inset-y-0 left-0 flex items-center z-10 pl-3 md:pl-6">
+                        <button
+                            onClick={goPrev}
+                            className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/25 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group"
+                            aria-label="Previous image"
+                        >
+                            <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center z-10 pr-3 md:pr-6">
+                        <button
+                            onClick={goNext}
+                            className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/25 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group"
+                            aria-label="Next image"
+                        >
+                            <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* Bottom bar: counter + dots + progress */}
+                    <div className="absolute bottom-0 left-0 right-0 z-10 p-4 md:p-6 bg-gradient-to-t from-black/60 to-transparent">
+                        <div className="flex items-center justify-between">
+                            {/* Slide counter */}
+                            <span className="font-sans text-[0.55rem] tracking-[0.3em] text-white/50">
+                                {String(activeSlide + 1).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}
+                            </span>
+
+                            {/* Dot indicators */}
+                            <div className="flex gap-1.5">
+                                {project.gallery.map((_, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => setActiveSlide(i)}
+                                        className={`h-[3px] rounded-full transition-all duration-400 ${i === activeSlide
+                                            ? "w-6 bg-white"
+                                            : "w-2 bg-white/30 hover:bg-white/50"
+                                            }`}
+                                        aria-label={`Go to image ${i + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="h-[2px] bg-white/10 mt-3 rounded-full overflow-hidden">
                             <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 + i * 0.1, duration: 0.8 }}
-                                className="w-full"
-                            >
-                                <img
-                                    src={img}
-                                    alt={`${project.title} - ${i + 1}`}
-                                    className="w-full h-auto"
-                                    loading="lazy"
-                                />
-                            </motion.div>
-                        ))}
+                                className="h-full bg-white/60 rounded-full"
+                                animate={{ width: `${((activeSlide + 1) / totalSlides) * 100}%` }}
+                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                            />
+                        </div>
                     </div>
                 </div>
 

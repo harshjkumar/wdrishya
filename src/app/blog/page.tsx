@@ -29,7 +29,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Real Weddings",
         date: "Feb 12, 2026",
         readTime: "8 min read",
-        image: "/image/471848663_3443499625953083_5705164155189859683_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586860/a6/S_A-361_fjxk9a.jpg",
         featured: true,
     },
     {
@@ -39,7 +39,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Inspiration",
         date: "Feb 10, 2026",
         readTime: "5 min read",
-        image: "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587242/a10/H_A-329_dfgvgo.jpg",
     },
     {
         slug: "minimalist-union-kerala",
@@ -48,7 +48,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Real Weddings",
         date: "Jan 28, 2026",
         readTime: "6 min read",
-        image: "/image/471856430_590723197008667_5365878325392816818_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771589636/a4/R_S-503_dzlqgy.jpg",
     },
     {
         slug: "capturing-raw-emotion",
@@ -57,7 +57,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Behind the Scenes",
         date: "Jan 15, 2026",
         readTime: "7 min read",
-        image: "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586852/a3/T_K_28_of_13_cz7ust.jpg",
     },
     {
         slug: "choosing-wedding-photographer",
@@ -66,7 +66,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Tips & Guides",
         date: "Jan 5, 2026",
         readTime: "10 min read",
-        image: "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586845/a8/R_Y-429_jdsjun.jpg",
     },
     {
         slug: "destination-wedding-goa",
@@ -75,7 +75,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Destination",
         date: "Dec 20, 2025",
         readTime: "6 min read",
-        image: "/image/500926684_18126904909444622_2937414089694625508_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771590501/a5/S_S-3372_g24wfw.jpg",
     },
     {
         slug: "golden-hour-secrets",
@@ -84,7 +84,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Tips & Guides",
         date: "Dec 10, 2025",
         readTime: "4 min read",
-        image: "/image/521289145_18131963746444622_8806270737169544479_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587322/a11/IMG_2277_lsafpr.jpg",
     },
     {
         slug: "behind-the-lens-process",
@@ -93,7 +93,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Behind the Scenes",
         date: "Nov 28, 2025",
         readTime: "9 min read",
-        image: "/image/521951094_18132108865444622_241777447569608977_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587286/a11/IMG_2281_a8g5vt.jpg",
     },
     {
         slug: "royal-celebration-jaipur",
@@ -102,7 +102,7 @@ const BLOG_POSTS: BlogPost[] = [
         category: "Real Weddings",
         date: "Nov 15, 2025",
         readTime: "7 min read",
-        image: "/image/630172917_18155680606444622_4404360271316279713_n..jpg",
+        image: "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587442/a12/A_L-494_bsne7j.jpg",
     },
 ];
 
@@ -217,10 +217,10 @@ export default function BlogPage() {
                 <div className="absolute inset-0 z-0">
                     <div className="grid grid-cols-3 md:grid-cols-4 h-full w-full">
                         {[
-                            "/image/471848663_3443499625953083_5705164155189859683_n..jpg",
-                            "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-                            "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
-                            "/image/521951094_18132108865444622_241777447569608977_n..jpg",
+                            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771589555/a4/R_S-344_hcxb5i.jpg",
+                            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587504/a13/R_S-263_xitykx.jpg",
+                            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586020/a1/U_V_84_of_172_zcbcoi.jpg",
+                            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771587571/a14/P_A-369_kdmmnz.jpg",
                         ].map((src, i) => (
                             <motion.div
                                 key={i}
@@ -557,7 +557,7 @@ export default function BlogPage() {
                                 className="aspect-[3/4] overflow-hidden relative"
                             >
                                 <img
-                                    src="/image/504263133_18128196238444622_181556966236736630_n..jpg"
+                                    src="https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771586001/a1/U_V_86_of_172_xrtbmm.jpg"
                                     alt="Wedding inspiration"
                                     className="w-full h-full object-cover opacity-50 grayscale"
                                 />

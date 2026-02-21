@@ -35,10 +35,10 @@ const FEATURED_PROJECTS = [
             "Featured in Vogue India",
         ],
         images: [
-            "/image/471834729_1591357068241015_6757391096652795139_n..jpg",
-            "/image/471926933_612630731161607_8618028661283559034_n..jpg",
-            "/image/472077805_438729035841247_1684520742985412950_n..jpg",
-            "/image/471437681_3874976286052782_6066754281855616369_n..jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
         ],
         testimonial: {
             text: "Wedding Drishya didn't just capture our wedding — they immortalized our love story. Every photograph feels like a painting, every frame tells a deeper story.",
@@ -61,10 +61,10 @@ const FEATURED_PROJECTS = [
             "Pre-Wedding Shoot Included",
         ],
         images: [
-            "/image/483294420_18120002581444622_8164220950622778638_n..jpg",
-            "/image/483315914_18119708074444622_3750380914602508032_n..jpg",
-            "/image/484516389_18120322792444622_4309740050952809697_n..jpg",
-            "/image/483159270_18120325618444622_8708046059407722550_n..jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
         ],
         testimonial: {
             text: "They captured the light, the laughter, and the love in ways we never imagined possible. Our photos make us relive every magical moment.",
@@ -87,10 +87,10 @@ const FEATURED_PROJECTS = [
             "Featured in Harper's Bazaar Bride",
         ],
         images: [
-            "/image/491424345_18124251514444622_6368208999997102984_n..jpg",
-            "/image/491433114_18124251487444622_6946680439628180157_n..jpg",
-            "/image/491893469_18124158730444622_3499460888742553311_n..jpg",
-            "/image/500536052_18126904927444622_6799998608470213627_n..jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
+            "https://res.cloudinary.com/shalimaar/image/upload/f_auto,q_auto:best,e_sharpen:80,w_1600/v1771585896/a1/U_V_196_of_641_xm4on1.jpg",
         ],
         testimonial: {
             text: "Every photograph is a masterpiece. Wedding Drishya understood our vision and elevated it beyond our wildest dreams. Pure artistry.",
